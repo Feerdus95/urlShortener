@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener Microservice</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>URL Shortener Microservice</h1>
+        
+        <div class="form-container">
+            <form id="url-form">
+                <input 
+                    type="text" 
+                    id="url-input" 
+                    placeholder="Enter a URL (e.g., https://www.freecodecamp.org)"
+                    required
+                >
+                <button type="submit">Shorten URL</button>
+            </form>
+        </div>
+
+        <div class="result" id="result">
+            <!-- Results will be displayed here -->
+        </div>
+
+        <div class="usage">
+            <h2>Example Usage:</h2>
+            <p>[POST] /api/shorturl - Create a short URL</p>
+            <p>[GET] /api/shorturl/:short_url - Redirect to original URL</p>
+        </div>
+
+        <div class="example">
+            <h2>Example Output:</h2>
+            <code>
+                {<br>
+                &nbsp;&nbsp;"original_url": "https://freecodecamp.org",<br>
+                &nbsp;&nbsp;"short_url": 1<br>
+                }
+            </code>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('url-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const urlInput = document.getElementById('url-input');
+            const resultDiv = document.getElementById('result');
+            
+            try {
+                const response = await fetch('/api/shorturl', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ url: urlInput.value })
+                });
+
+                const data = await response.json();
+                
+                if (data.error) {
+                    resultDiv.innerHTML = `
+                        <div class="error">
+                            Error: ${data.error}
+                        </div>
+                    `;
+                } else {
+                    const shortUrl = `${window.location.origin}/api/shorturl/${data.short_url}`;
+                    resultDiv.innerHTML = `
+                        <div class="success">
+                            <p>Original URL: <a href="${data.original_url}" target="_blank">${data.original_url}</a></p>
+                            <p>Short URL: <a href="${shortUrl}" target="_blank">${shortUrl}</a></p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        An error occurred. Please try again.
+                    </div>
+                `;
+            }
+
+            urlInput.value = '';
+        });
+    </script>
+</body>
+</html>
