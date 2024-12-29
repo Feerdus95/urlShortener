@@ -28,64 +28,17 @@
 
         <div class="usage">
             <h2>Example Usage:</h2>
-            <p>[POST] /api/shorturl - Create a short URL</p>
-            <p>[GET] /api/shorturl/:short_url - Redirect to original URL</p>
-        </div>
+            <p><strong>POST</strong> /api/shorturl - Create a short URL</p>
+            <p><strong>GET</strong> /api/shorturl/:short_url - Redirect to original URL</p>
 
-        <div class="example">
             <h2>Example Output:</h2>
-            <code>
-                {<br>
-                &nbsp;&nbsp;"original_url": "https://freecodecamp.org",<br>
-                &nbsp;&nbsp;"short_url": 1<br>
-                }
-            </code>
+            <pre>
+{
+  "original_url": "https://freecodecamp.org",
+  "short_url": 1
+}
+            </pre>
         </div>
     </div>
-
-    <script>
-        document.getElementById('url-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const urlInput = document.getElementById('url-input');
-            const resultDiv = document.getElementById('result');
-            
-            try {
-                const response = await fetch('/api/shorturl', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ url: urlInput.value })
-                });
-
-                const data = await response.json();
-                
-                if (data.error) {
-                    resultDiv.innerHTML = `
-                        <div class="error">
-                            Error: ${data.error}
-                        </div>
-                    `;
-                } else {
-                    const shortUrl = `${window.location.origin}/api/shorturl/${data.short_url}`;
-                    resultDiv.innerHTML = `
-                        <div class="success">
-                            <p>Original URL: <a href="${data.original_url}" target="_blank">${data.original_url}</a></p>
-                            <p>Short URL: <a href="${shortUrl}" target="_blank">${shortUrl}</a></p>
-                        </div>
-                    `;
-                }
-            } catch (error) {
-                resultDiv.innerHTML = `
-                    <div class="error">
-                        An error occurred. Please try again.
-                    </div>
-                `;
-            }
-
-            urlInput.value = '';
-        });
-    </script>
 </body>
 </html>
