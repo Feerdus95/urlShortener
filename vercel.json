@@ -9,11 +9,18 @@
   "routes": [
     {
       "src": "/style.css",
+      "headers": {
+        "Content-Type": "text/css"
+      },
       "dest": "/style.css"
     },
     {
+      "src": "/api/shorturl/(.*)",
+      "dest": "/index.js"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/"
+      "dest": "/index.js"
     }
   ]
 }
