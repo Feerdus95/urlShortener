@@ -13,6 +13,10 @@ document.getElementById('url-form').addEventListener('submit', async (e) => {
             body: JSON.stringify({ url: urlInput.value })
         });
 
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         const data = await response.json();
         
         if (data.error) {
@@ -31,6 +35,7 @@ document.getElementById('url-form').addEventListener('submit', async (e) => {
             `;
         }
     } catch (error) {
+        console.error('Error:', error);
         resultDiv.innerHTML = `
             <div class="error">
                 An error occurred. Please try again.
