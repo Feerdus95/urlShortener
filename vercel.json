@@ -4,19 +4,30 @@
     {
       "src": "index.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "style.css",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
       "src": "/style.css",
+      "dest": "/style.css",
       "headers": {
-        "Content-Type": "text/css"
-      },
-      "dest": "/style.css"
+        "cache-control": "public, max-age=0, must-revalidate",
+        "content-type": "text/css"
+      }
+    },
+    {
+      "src": "/api/shorturl",
+      "dest": "/index.js",
+      "methods": ["POST"]
     },
     {
       "src": "/api/shorturl/(.*)",
-      "dest": "/index.js"
+      "dest": "/index.js",
+      "methods": ["GET"]
     },
     {
       "src": "/(.*)",
