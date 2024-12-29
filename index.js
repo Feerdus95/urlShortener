@@ -11,7 +11,7 @@ const Url = require('./models/Url');
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    serverSelectionTimeoutMS: 3000, // Reduced timeout
+    serverSelectionTimeoutMS: 3000,
     socketTimeoutMS: 5000,
     connectTimeoutMS: 3000,
 })
@@ -21,7 +21,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 // Middleware
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // URL validation function
 function isValidUrl(url) {
@@ -32,6 +32,11 @@ function isValidUrl(url) {
         return false;
     }
 }
+
+// Root endpoint
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 // POST endpoint to create short URL
 app.post('/api/shorturl', async (req, res) => {
@@ -84,11 +89,6 @@ app.get('/api/shorturl/:short_url', async (req, res) => {
         console.error('GET Error:', error);
         return res.json({ error: 'invalid url' });
     }
-});
-
-// Root endpoint
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 const PORT = process.env.PORT || 3000;
