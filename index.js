@@ -21,10 +21,10 @@ mongoose.connect(process.env.MONGODB_URI, {
 // Middleware
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname)));
 
-// Root endpoint
-app.get('/', (req, res) => {
+// Serve the HTML file for the root route
+app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
@@ -81,7 +81,6 @@ app.post('/api/shorturl', async (req, res) => {
 // GET endpoint to redirect to original URL
 app.get('/api/shorturl/:short_url', async (req, res) => {
     try {
-        // Add timeout and connection optimization
         const shortUrl = parseInt(req.params.short_url);
         if (isNaN(shortUrl)) {
             return res.json({ error: 'Invalid short URL format' });
@@ -93,12 +92,6 @@ app.get('/api/shorturl/:short_url', async (req, res) => {
             return res.json({ error: 'No short URL found' });
         }
 
-        // Redirect with cache headers
-        res.set({
-            'Cache-Control': 'public, max-age=300',
-            'Expires': new Date(Date.now() + 300000).toUTCString()
-        });
-        
         return res.redirect(urlDoc.original_url);
     } catch (error) {
         console.error('Redirect Error:', error);
