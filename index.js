@@ -18,6 +18,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static('public'));
+app.use(express.static(__dirname));
 // URL validation function
 function isValidUrl(url) {
   return new Promise((resolve) => {
