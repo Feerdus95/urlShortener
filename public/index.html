@@ -28,17 +28,21 @@
 
         <div class="usage">
             <h2>Example Usage:</h2>
-            <p><strong>POST</strong> /api/shorturl - Create a short URL</p>
-            <p><strong>GET</strong> /api/shorturl/:short_url - Redirect to original URL</p>
+            <p>[POST] /api/shorturl - Create a short URL</p>
+            <p>[GET] /api/shorturl/:short_url - Redirect to original URL</p>
+        </div>
 
+        <div class="example">
             <h2>Example Output:</h2>
-            <pre>
-{
-  "original_url": "https://freecodecamp.org",
-  "short_url": 1
-}
-            </pre>
+            <code>
+                {<br>
+                &nbsp;&nbsp;"original_url": "https://freecodecamp.org",<br>
+                &nbsp;&nbsp;"short_url": 1<br>
+                }
+            </code>
         </div>
     </div>
+    
+    <script src="/script.js"></script>
 </body>
 </html>
