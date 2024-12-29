@@ -8,16 +8,20 @@
   ],
   "routes": [
     {
+      "src": "/public/(.*)",
+      "dest": "/public/$1"
+    },
+    {
       "src": "/api/shorturl",
-      "dest": "/index.js"
+      "dest": "index.js"
     },
     {
       "src": "/api/shorturl/(.*)",
-      "dest": "/index.js"
+      "dest": "index.js"
     },
     {
       "src": "/(.*)",
-      "dest": "/index.js"
+      "dest": "index.js"
     }
   ]
 }
