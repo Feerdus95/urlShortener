@@ -21,14 +21,13 @@ mongoose.connect(process.env.MONGODB_URI, {
 // Middleware
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use('/style.css', express.static(path.join(__dirname, 'style.css'), {
-    setHeaders: (res) => {
-        res.setHeader('Content-Type', 'text/css');
-    }
-}));
+
+// Serve static files from the public directory
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Serve the HTML file for the root route
 app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // URL validation function
